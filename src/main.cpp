@@ -2,6 +2,7 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include "esp_sleep.h"
 
 // Define the pins that we will use
 #define CAPTEUR 33    // pin DATA du DHT11
@@ -19,16 +20,14 @@ void setup() {
   pinMode(LED, OUTPUT);
 
   dht.begin();
-  Serial.println("DHT11 - Mesure temperature / humidite");
+  Serial.println("DHT11 - Mesure temperature / humidite (Deep Sleep)");
 
   sensor_t sensor;
   dht.temperature().getSensor(&sensor);
-  delayMS = sensor.min_delay / 1000;   // délai mini entre mesures
-}
+  delayMS = sensor.min_delay / 1000;
 
-void loop() {
-  // Effectuer une mesure toutes les 5s
-  delay(5000);
+  // Petite attente au démarrage
+  delay(2000);
 
   sensors_event_t event;
 
@@ -51,4 +50,18 @@ void loop() {
     Serial.print(event.temperature);
     Serial.println(" °C");
   }
+
+  Serial.println("Je pars en deep sleep pendant 5 secondes...");
+
+  // Programmer le timer de réveil (5 s)
+  esp_sleep_enable_timer_wakeup(5ULL * 1000000ULL);
+
+  // Lancer le deep sleep
+  esp_deep_sleep_start();
+
+  // On ne revient jamais ici
+}
+
+void loop() {
+  // Doit être vide pour cette étape
 }
