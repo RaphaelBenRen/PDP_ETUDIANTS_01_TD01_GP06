@@ -10,8 +10,9 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(LED, HIGH);
-  delay(200);
-  digitalWrite(LED, LOW);
-  delay(200);
+  // Effectuer une mesure toutes les 5s
+
+  // Afficher l'humidité relative avec un peu de formatage
+
+  // Afficher la température avec un peu de formatage
 }
