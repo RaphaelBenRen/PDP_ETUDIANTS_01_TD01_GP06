@@ -26,12 +26,10 @@ void setup() {
   dht.temperature().getSensor(&sensor);
   delayMS = sensor.min_delay / 1000;
 
-  // Petite attente au démarrage
   delay(2000);
 
   sensors_event_t event;
 
-  // Humidité
   dht.humidity().getEvent(&event);
   if (isnan(event.relative_humidity)) {
     Serial.println("Erreur lecture humidite !");
@@ -41,7 +39,6 @@ void setup() {
     Serial.println(" %");
   }
 
-  // Température
   dht.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
     Serial.println("Erreur lecture temperature !");
@@ -53,15 +50,11 @@ void setup() {
 
   Serial.println("Je pars en deep sleep pendant 5 secondes...");
 
-  // Programmer le timer de réveil (5 s)
   esp_sleep_enable_timer_wakeup(5ULL * 1000000ULL);
 
-  // Lancer le deep sleep
   esp_deep_sleep_start();
 
-  // On ne revient jamais ici
 }
 
 void loop() {
-  // Doit être vide pour cette étape
 }
